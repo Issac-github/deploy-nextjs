@@ -68,6 +68,7 @@ ssh ${SERVER} "rm -rf ${DEPLOY_RESOURCE_UNZIP_PATH};
 
   # 检查端口是否被占用(ipv6)
   netstat -tuln | grep ${PORT}
+  sudo fuser -k ${PORT}/tcp
 
   # 检查端口是否被占用(ipv4)
   PID=$(sudo lsof -t -i :$PORT)
@@ -80,5 +81,5 @@ ssh ${SERVER} "rm -rf ${DEPLOY_RESOURCE_UNZIP_PATH};
   fi
 
   # 启动 Next.js 应用
-  NODE_ENV=production nohup ./node_modules/next/dist/bin/next start -p ${PORT} & > ./next.log 2>&1 &
+  NODE_ENV=production nohup ./node_modules/next/dist/bin/next start -p ${PORT} > ./next.log 2>&1 &
   echo \"Next.js 应用已在端口 ${PORT} 上启动\";"
